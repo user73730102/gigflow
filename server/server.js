@@ -7,6 +7,12 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
+const ALLOWED_ORIGINS = [
+  "http://localhost:5173",
+  "http://localhost:5174", // Sometimes Vite uses this port
+  process.env.CLIENT_URL // This must match your Netlify URL exactly
+];
+
 // Models
 const User = require('./models/User');
 const Gig = require('./models/Gig');
@@ -19,11 +25,6 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const server = http.createServer(app);
-
-const ALLOWED_ORIGINS = [
-  "http://localhost:5173",
-  process.env.CLIENT_URL // We will set this in Render dashboard later
-];
 
 // CORS Config for Cookie Support
 app.use(cors({
